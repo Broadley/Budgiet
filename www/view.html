@@ -7,7 +7,8 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <title>Budgiet &bullet; Home</title>
+        <title>Budgiet &bullet; View</title>
+
     </head>
     <body>
         <a href="index.html">
@@ -17,10 +18,8 @@
         </a>
         <div class="container">
 
-            <p style="font-size: 2em">Budget: £<span id="budget"></span></p>
-            <p id="number"></p>
-            <p style="font-size: 2.5em;">4 days left</p>
-
+            <h2>View</h2>
+            <p id="test"></p>
 
             <div class="navbar-fixed-bottom" style="background-color: #666666;">
                 <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
@@ -31,8 +30,10 @@
 
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="database.js"></script>
         <script type="text/javascript">
             app.initialize();
+            document.getElementById('test').innerHTML = getLOCALSTORAGE();
         </script>
     </body>
 </html>

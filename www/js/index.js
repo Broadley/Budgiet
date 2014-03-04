@@ -20,6 +20,25 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+
+        var budget = '20';
+        var balance = '15';
+
+        if (balance < 0) {
+            document.body.style.background = '#a4003e';
+        } else {
+            document.body.style.background = '#51c778';
+        }
+
+        if (document.getElementById('number')){
+            document.getElementById('number').innerHTML = ("£" + balance);
+        }
+        if (document.getElementById('budget')){
+            document.getElementById('budget').innerHTML = (budget);
+        }
+        if (document.getElementById('budget2')){
+            document.getElementById('budget2').value = (budget);
+        }
     },
     // Bind Event Listeners
     //
