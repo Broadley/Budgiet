@@ -21,8 +21,16 @@ var app = {
     initialize: function() {
         this.bindEvents();
 
-        var budget = '20';
-        var balance = '15';
+        var item = localStorage.getItem("1");
+        if (item != null) {
+            var budget = item;
+        } else {
+            var budget = "NaN";
+        }
+
+        var spending = 26;
+
+        var balance = budget - spending;
 
         if (balance < 0) {
             document.body.style.background = '#a4003e';
