@@ -24,7 +24,8 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
+    background-color: #a4003e !important;
+    /*background-color: #51c778 !important;*/
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -36,13 +37,34 @@ body {
         color-stop(0.51, #E4E4E4)
     );
     background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family:'Georgia', 'HelveticaNeue', Helvetica, Arial, sans-serif!important;
     font-size:12px;
     height:100%;
     margin:0px;
     padding:0px;
     text-transform:uppercase;
     width:100%;
+    color: #FFFFFF!important;
+}
+
+p {
+    font-weight: bold;
+    font-size: 5em;
+    text-align: center;
+    margin: 10% 0 0 0!important;
+}
+
+.quickadd a{
+    color: #FFFFFF;
+}
+
+.quickadd a:hover{
+    color: #FFFFFF;
+}
+
+
+a:hover {
+    text-decoration: none!important;
 }
 
 /* Portrait layout (default) */
@@ -57,6 +79,13 @@ body {
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
     margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
                                    /* offset horizontal: half of text area width */
+}
+
+.navbar-style {
+    margin: 2.5% 0;
+    width: 32%;
+    display: inline-block;
+    text-align: center;
 }
 
 /* Landscape layout (with min-width) */
