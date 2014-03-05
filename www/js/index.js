@@ -21,32 +21,24 @@ var app = {
     initialize: function() {
         this.bindEvents();
 
-        var item = localStorage.getItem("1");
-        if (item != null) {
-            var budget = item;
-        } else {
-            var budget = "NaN";
-        }
+        var budgetItem = 0;
 
-        var spending = 26;
+        $.ajax({
+            url: 'http://ibenn.co.uk/budgietReturnBudget.php',
+            dataType: 'jsonp',
+            jsonp: 'jsoncallback',
+            timeout: 5000,
+            success: function(data, status){
+                $.each(data, function(i,item){
+                    budgets(item.budget);
+                });
+            },
+            error: function(){
+                //error loading data
+                console.log("Didn't load");
+            }
+        });
 
-        var balance = budget - spending;
-
-        if (balance < 0) {
-            document.body.style.background = '#a4003e';
-        } else {
-            document.body.style.background = '#51c778';
-        }
-
-        if (document.getElementById('number')){
-            document.getElementById('number').innerHTML = ("£" + balance);
-        }
-        if (document.getElementById('budget')){
-            document.getElementById('budget').innerHTML = (budget);
-        }
-        if (document.getElementById('budget2')){
-            document.getElementById('budget2').value = (budget);
-        }
     },
     // Bind Event Listeners
     //
@@ -74,3 +66,30 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
+
+function budgets(budget) {
+    if (budget == null) {
+        budget = "NaN";
+    }
+
+    var spending = 26;
+
+    var balance = budget - spending;
+
+    if (balance < 0) {
+        document.body.style.background = '#a4003e';
+    } else {
+        document.body.style.background = '#51c778';
+    }
+
+    if (document.getElementById('number')){
+        document.getElementById('number').innerHTML = ("£" + balance);
+    }
+    if (document.getElementById('budget')){
+        document.getElementById('budget').innerHTML = (budget);
+    }
+    if (document.getElementById('budget2')){
+        document.getElementById('budget2').value = (budget);
+    }
+}
+

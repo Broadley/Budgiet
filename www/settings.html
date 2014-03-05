@@ -17,7 +17,7 @@
         </a>
         <h2>Settings</h2>
         <div class="container">
-            <form class="form-horizontal" style="width:40%; margin: 0 auto; text-align: center;">
+            <form id="form1" class="form-horizontal" style="width:40%; margin: 0 auto; text-align: center;">
                 <fieldset>
                     <!-- Text input-->
                     <div class="control-group" style="">
@@ -47,7 +47,8 @@
                         <label class="control-label" for=""></label>
                         <div class="controls">
                             <!--<button id="" name="" class="btn btn-default" onclick="budget()">Submit</button>-->
-                            <p onclick="budget()" class="btn btn-default">Submit</p>
+                            <!--<p onclick="javascript: budget()" class="btn btn-default">Submit</p>-->
+                            <input type="submit" name="submit" id="submit" value="Submit">
                         </div>
                     </div>
 
@@ -64,6 +65,7 @@
 
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript">
             app.initialize();
         </script>
@@ -73,6 +75,21 @@
                 localStorage.setItem("1", document.getElementById('budget2').value);
                 window.location.href = 'index.html';
             }
+
+
+            $('#form1').submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://www.ibenn.co.uk/budgietBudget.php',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(data, status){
+                        console.log("test");
+                        window.location.href="index.html";
+                    }
+                });
+            });
         </script>
     </body>
 </html>
