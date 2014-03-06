@@ -18,19 +18,19 @@
         <div class="container">
             <div style="margin: 15% 0;"></div>
             <div class="quickadd">
-                <a href="javascript:addItem('Pint', '3');">
+                <a href="javascript:addItem('Pint');">
                     <div class="navbar-style">
                         <img src="img/957-beer-mug@2x.png">
                         <br />PINT
                     </div>
                 </a>
-                <a href="javascript:addLOCALSTORAGE('Petrol');">
+                <a href="javascript:addItem('Petrol');">
                     <div class="navbar-style">
                         <img src="img/931-gas-pump@2x.png">
                         <br />PETROL
                     </div>
                 </a>
-                <a href="#">
+                <a href="javascript:addItem('Tesco');">
                     <div class="navbar-style">
                         <img src="img/762-shopping-bag@2x.png">
                         <br />TESCO
@@ -39,13 +39,13 @@
             </div>
 
             <div class="quickadd">
-                <a href="#">
+                <a href="javascript:addItem('Metro');">
                     <div class="navbar-style">
                         <img src="img/813-train@2x.png">
                         <br />METRO
                     </div>
                 </a>
-                <a href="#">
+                <a href="javascript:addItem('Gift');">
                     <div class="navbar-style">
                         <img src="img/761-gift@2x.png">
                         <br />GIFT
@@ -72,7 +72,7 @@
                         <br />TODO
                     </div>
                 </a>
-                <a href="#">
+                <a href="javascript:addItem('custom');">
                     <div class="navbar-style">
                         <img src="img/907-plus-rounded-square@2x.png">
                         <br />CUSTOM
@@ -93,6 +93,13 @@
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript">
             app.initialize();
+        </script>
+
+        <script type="text/javascript">
+            function addItem(item){
+                localStorage.setItem('1', item);
+                window.location.href = 'addDetails.html';
+            }
         </script>
 
     </body>

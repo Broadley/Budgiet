@@ -9,6 +9,23 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <title>Budgiet &bullet; View</title>
 
+        <script type="text/javascript">
+            $.ajax({
+                url: 'http://ibenn.co.uk/budgietView.php',
+                dataType: 'jsonp',
+                jsonp: 'jsoncallback',
+                timeout: 5000,
+                success: function(data, status){
+                    $.each(data, function(i,item){
+                        budgets(item.budget);
+                    });
+                },
+                error: function(){
+                    //error loading data
+                    console.log("Didn't load");
+                }
+            });
+        </script>
     </head>
     <body>
         <a href="index.html">

@@ -7,7 +7,7 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <title>Budgiet &bullet; Settings</title>
+        <title>Budgiet &bullet; Add Details</title>
     </head>
     <body>
         <a href="index.html">
@@ -15,32 +15,24 @@
                 BUDG<img src="img/logo.png" height="75" width="39.375">IET
             </div>
         </a>
-        <h2>Settings</h2>
+        <h2>Details</h2>
         <div class="container">
             <form id="form1" class="form-horizontal" style="">
                 <fieldset>
                     <!-- Text input-->
                     <div class="control-group" style="">
-                        <label class="control-label" for="budget2">Budget:</label>
+                        <label class="control-label" for="item">Item:</label>
                         <div class="controls">
-                            <input id="budget2" name="budget" placeholder="Budget" class="input-xxlarge"  style="color: #000000;" required="" type="text">
+                            <input id="item" name="item" placeholder="Item" class="input-xxlarge"  style="color: #000000;" required="" type="text">
+                        </div>
+                    </div>
+                    <div class="control-group" style="">
+                        <label class="control-label" for="price">Price:</label>
+                        <div class="controls">
+                            <input id="price" name="price" placeholder="Price" class="input-xxlarge"  style="color: #000000;" required="" type="number">
                         </div>
                     </div>
 
-                    <!-- Multiple Radios -->
-                    <div class="control-group">
-                        <label class="control-label" for="radios">Duration:</label>
-                        <div class="controls">
-                            <label class="radio" for="radios-0">
-                                <input name="radios" id="radios-0" value="Monthly" checked="checked" type="radio">
-                                Monthly
-                            </label>
-                            <label class="radio" for="radios-1">
-                                <input name="radios" id="radios-1" value="Weekly" type="radio">
-                                Weekly
-                            </label>
-                        </div>
-                    </div>
 
                     <!-- Button -->
                     <div class="control-group">
@@ -68,20 +60,25 @@
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript">
             app.initialize();
+
+            if (localStorage.getItem("1") != 'custom') {
+                document.getElementById('item').value = localStorage.getItem("1");
+                document.getElementById('item').disabled = true;
+                document.getElementById('price').focus();
+            } else {
+                document.getElementById('item').focus();
+            }
+
         </script>
 
         <script type="text/javascript">
-            function budget(){
-                localStorage.setItem("1", document.getElementById('budget2').value);
-                window.location.href = 'index.html';
-            }
-
 
             $('#form1').submit(function(event) {
+                document.getElementById('item').disabled = false;
                 event.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: 'http://www.ibenn.co.uk/budgietBudget.php',
+                    url: 'http://www.ibenn.co.uk/budgietAdd.php',
                     data: $(this).serialize(),
                     dataType: 'json',
                     complete: function(data, status){
