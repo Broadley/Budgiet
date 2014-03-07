@@ -16,29 +16,13 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
-
-        var budgetItem = 0;
-
-        $.ajax({
-            url: 'http://ibenn.co.uk/budgietReturnBudget.php',
-            dataType: 'jsonp',
-            jsonp: 'jsoncallback',
-            timeout: 5000,
-            success: function(data, status){
-                $.each(data, function(i,item){
-                    budgets(item.budget);
-                });
-            },
-            error: function(){
-                //error loading data
-                console.log("Didn't load");
-            }
-        });
-
+        document.body.style.background = localStorage.getItem('3');
     },
     // Bind Event Listeners
     //
@@ -67,19 +51,23 @@ var app = {
     }
 };
 
-function budgets(budget) {
+function budgets() {
+    var budget = localStorage.getItem('2');
+
     if (budget == null) {
         budget = "NaN";
     }
 
-    var spending = 26;
+    var spending = localStorage.getItem('4');
 
     var balance = budget - spending;
 
     if (balance < 0) {
         document.body.style.background = '#a4003e';
+        localStorage.setItem('3', '#a4003e');
     } else {
         document.body.style.background = '#51c778';
+        localStorage.setItem('3', '#51c778');
     }
 
     if (document.getElementById('number')){
@@ -93,3 +81,74 @@ function budgets(budget) {
     }
 }
 
+function getBudget() {
+    var budgetItem = 0;
+
+    $.ajax({
+        url: 'http://ibenn.co.uk/budgietReturnBudget.php',
+        dataType: 'jsonp',
+        jsonp: 'jsoncallback',
+        timeout: 5000,
+        success: function(data, status){
+            $.each(data, function(i,item){
+                localStorage.setItem('2', item.budget);
+                budgets();
+            });
+        },
+        error: function(){
+            //error loading data
+            console.log("Didn't load");
+        }
+    });
+}
+
+function items(){
+
+    $.ajax({
+        url: 'http://ibenn.co.uk/budgietView.php',
+        dataType: 'jsonp',
+        jsonp: 'jsoncallback',
+        timeout: 5000,
+        success: function(data, status){
+            var spending = 0;
+            $.each(data, function(i,item){
+                spending += parseInt(item.price);
+            });
+            localStorage.setItem('4', spending);
+            budgets();
+        },
+        error: function(){
+            //error loading data
+            console.log("Didn't load");
+        }
+    });
+}
+
+function itemDetails(){
+    var amountTrans = 5;
+    var innerHTML = '<h2>Last ' + amountTrans + ' transactions:</h2><table class="table table-striped" style="color: #000000;"><thead><tr><th>#</th><th>Time</th><th>Item</th><th>Price</th></tr></thead><tbody>';
+    $.ajax({
+        url: 'http://ibenn.co.uk/budgietView.php',
+        dataType: 'jsonp',
+        jsonp: 'jsoncallback',
+        timeout: 5000,
+        success: function(data, status){
+
+            var y = 0;
+            for (x=data.length-1; x >= (data.length-amountTrans); x--){
+                innerHTML += "<tr><td>" + (++y) + "</td>";
+                innerHTML += "<td>" + data[x].timestamp + "</td>";
+                innerHTML += "<td>" + data[x].item + "</td>";
+                innerHTML += "<td>£" + data[x].price + "</td></tr>";
+            }
+
+            innerHTML += "</tbody></table>";
+
+            document.getElementById('table').innerHTML = innerHTML;
+        },
+        error: function(){
+            //error loading data
+            console.log("Didn't load");
+        }
+    });
+}

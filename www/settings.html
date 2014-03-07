@@ -71,11 +71,8 @@
         </script>
 
         <script type="text/javascript">
-            function budget(){
-                localStorage.setItem("1", document.getElementById('budget2').value);
-                window.location.href = 'index.html';
-            }
 
+            document.getElementById('budget2').value = localStorage.getItem('2');
 
             $('#form1').submit(function(event) {
                 event.preventDefault();

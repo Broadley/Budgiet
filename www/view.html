@@ -9,23 +9,8 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <title>Budgiet &bullet; View</title>
 
-        <script type="text/javascript">
-            $.ajax({
-                url: 'http://ibenn.co.uk/budgietView.php',
-                dataType: 'jsonp',
-                jsonp: 'jsoncallback',
-                timeout: 5000,
-                success: function(data, status){
-                    $.each(data, function(i,item){
-                        budgets(item.budget);
-                    });
-                },
-                error: function(){
-                    //error loading data
-                    console.log("Didn't load");
-                }
-            });
-        </script>
+
+
     </head>
     <body>
         <a href="index.html">
@@ -36,22 +21,64 @@
         <div class="container">
 
             <h2>View</h2>
-            <p id="test"></p>
+            <canvas id="myChart" width="270" height="270"></canvas>
+            <div id="key"></div>
+            <p id="table" style="font-size: 1em;"></p>
 
-            <div class="navbar-fixed-bottom" style="background-color: #666666;">
-                <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
-                <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
-                <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
-            </div>
+
+        </div>
+        <div class="" style="background-color: #666666;">
+            <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
+            <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
+            <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
         </div>
 
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="database.js"></script>
+        <script type="text/javascript" src="js/chart.js"></script>
         <script type="text/javascript">
             app.initialize();
-            document.getElementById('test').innerHTML = getLOCALSTORAGE();
+        </script>
+
+        <script type="text/javascript">
+            itemDetails();
+
+            var innerHTML = new Array();
+            var key2 = '<h2>Key:</h2><table class="table"><thead><tr><th>Colour</th><th>Item</th><th>Total</th></tr></thead><tbody>';
+            $.ajax({
+                url: 'http://ibenn.co.uk/budgietView5.php',
+                dataType: 'jsonp',
+                jsonp: 'jsoncallback',
+                timeout: 5000,
+                success: function(data, status){
+
+                    var color = 152020;
+
+
+                    $.each(data, function(i,item){
+                        color = color + 23422;
+                        innerHTML.push({value: parseInt(item.total), color: '#' + color});
+                        key2 += "<tr><td style='background-color: #" + color + ";'></td><td>" + item.item + "</td><td>£" + item.total + "</td></tr>";
+                    });
+
+                    key2 += "</tbody></table>";
+                    console.log(key2);
+
+                },
+                complete: function(){
+
+                    var options = "";
+                    console.log(innerHTML);
+                    var ctx = document.getElementById("myChart").getContext("2d");
+                    var myNewChart = new Chart(ctx).Pie(innerHTML, options);
+                    document.getElementById('key').innerHTML = key2;
+                },
+                error: function(){
+                    //error loading data
+                    console.log("Didn't load");
+                }
+            });
         </script>
     </body>
 </html>

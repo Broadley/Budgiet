@@ -46,6 +46,16 @@ h2 {
     text-align: center;
 }
 
+.quickButton {
+    color: #FFFFFF;
+    width: 20%;
+    padding: 5% 0;
+    text-align: center;
+    border: 2px solid #ffffff;
+    display: inline-block;
+    margin: 4% 4% 4% 0;
+}
+
 .quickadd a{
     color: #FFFFFF;
 }

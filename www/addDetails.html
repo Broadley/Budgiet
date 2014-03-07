@@ -26,6 +26,12 @@
                             <input id="item" name="item" placeholder="Item" class="input-xxlarge"  style="color: #000000;" required="" type="text">
                         </div>
                     </div>
+
+                    <a href="javascript: submitForm('1')"><div class="quickButton">1</div></a>
+                    <a href="javascript: submitForm('5')"><div class="quickButton">5</div></a>
+                    <a href="javascript: submitForm('10')"><div class="quickButton">10</div></a>
+                    <a href="javascript: submitForm('100')"><div class="quickButton">100</div></a>
+
                     <div class="control-group" style="">
                         <label class="control-label" for="price">Price:</label>
                         <div class="controls">
@@ -86,6 +92,12 @@
                     }
                 });
             });
+
+            function submitForm(numb){
+                document.getElementById('price').value = numb;
+                document.getElementById('submit').click();
+                /*document.getElementById('form1').submit();*/
+            }
         </script>
     </body>
 </html>
