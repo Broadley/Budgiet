@@ -9,25 +9,22 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <title>Budgiet &bullet; View</title>
 
-
-
     </head>
     <body>
         <a href="index.html">
-            <div style="background-color: #FFFFFF; height: 75px; color: black; font-size: 2em; text-align: center;">
+            <div style="background-color: #FFFFFF; position:fixed; top: 0; width: 100%; height: 75px; color: black; font-size: 2em; text-align: center;">
                 BUDG<img src="img/logo.png" height="75" width="39.375">IET
             </div>
         </a>
-        <div class="container">
+        <div class="container" style="margin: 80px 0 0 0">
 
             <h2>View</h2>
             <canvas id="myChart" width="270" height="270"></canvas>
             <div id="key"></div>
-            <p id="table" style="font-size: 1em;"></p>
-
+            <div id="table" style="font-size: 1em; margin: 0 0 25% 0"></div>
 
         </div>
-        <div class="" style="background-color: #666666;">
+        <div class="navbar-fixed-bottom" style="background-color: #666666;">
             <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
             <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
             <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
@@ -45,6 +42,7 @@
             itemDetails();
 
             var innerHTML = new Array();
+            var runningTotal = 0;
             var key2 = '<h2>Key:</h2><table class="table"><thead><tr><th>Colour</th><th>Item</th><th>Total</th></tr></thead><tbody>';
             $.ajax({
                 url: 'http://ibenn.co.uk/budgietView5.php',
@@ -53,15 +51,16 @@
                 timeout: 5000,
                 success: function(data, status){
 
-                    var color = 152020;
-
+                    var color = 111020;
 
                     $.each(data, function(i,item){
-                        color = color + 23422;
-                        innerHTML.push({value: parseInt(item.total), color: '#' + color});
+                        color = color + 9455;
+                        innerHTML.push({value: parseFloat(item.total), color: '#' + color});
+                        runningTotal += parseFloat(item.total);
                         key2 += "<tr><td style='background-color: #" + color + ";'></td><td>" + item.item + "</td><td>£" + item.total + "</td></tr>";
                     });
 
+                    key2 += "<tr><td>Total:</td><td></td><td>£"+ runningTotal.toFixed(2) +"</td></tr>"
                     key2 += "</tbody></table>";
                     console.log(key2);
 

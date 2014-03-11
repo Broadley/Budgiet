@@ -71,13 +71,20 @@ function budgets() {
     }
 
     if (document.getElementById('number')){
-        document.getElementById('number').innerHTML = ("£" + balance);
+        document.getElementById('number').innerHTML = ("£" + balance.toFixed(2));
     }
     if (document.getElementById('budget')){
         document.getElementById('budget').innerHTML = (budget);
     }
     if (document.getElementById('budget2')){
         document.getElementById('budget2').value = (budget);
+    }
+    if (document.getElementById('daysleft')){
+        if (localStorage.getItem('5') == 7) {
+            document.getElementById('daysleft').innerHTML = "Last day!";
+        } else {
+            document.getElementById('daysleft').innerHTML = (localStorage.getItem('5') + " days remaining.");
+        }
     }
 }
 
@@ -92,6 +99,7 @@ function getBudget() {
         success: function(data, status){
             $.each(data, function(i,item){
                 localStorage.setItem('2', item.budget);
+                localStorage.setItem('5', item.daysleft);
                 budgets();
             });
         },
@@ -112,8 +120,9 @@ function items(){
         success: function(data, status){
             var spending = 0;
             $.each(data, function(i,item){
-                spending += parseInt(item.price);
+                spending += parseFloat(item.price);
             });
+
             localStorage.setItem('4', spending);
             budgets();
         },
@@ -137,7 +146,10 @@ function itemDetails(){
             var y = 0;
             for (x=data.length-1; x >= (data.length-amountTrans); x--){
                 innerHTML += "<tr><td>" + (++y) + "</td>";
-                innerHTML += "<td>" + data[x].timestamp + "</td>";
+
+                var date = new Date(data[x].timestamp*1000);
+
+                innerHTML += "<td>" + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + "</td>";
                 innerHTML += "<td>" + data[x].item + "</td>";
                 innerHTML += "<td>£" + data[x].price + "</td></tr>";
             }
