@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <title>Budgiet &bullet; Login</title>
+</head>
+<body>
+<a href="index.html">
+    <div style="background-color: #FFFFFF; height: 75px; color: black; font-size: 2em; text-align: center;">
+        BUDG<img src="img/logo.png" height="75" width="39.375">IET
+    </div>
+</a>
+<h2>Login</h2>
+<div class="container">
+    <form id="form1" class="form-horizontal" style="">
+        <fieldset>
+            <!-- Text input-->
+            <div class="control-group" style="">
+                <label class="control-label" for="username">Username:</label>
+                <div class="controls">
+                    <input id="username" name="username" placeholder="Username" class="form-control"  style="color: #000000;" required="" type="text">
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="control-group" style="">
+                <label class="control-label" for="password">Password:</label>
+                <div class="controls">
+                    <input id="password" name="password" placeholder="Password" class="form-control"  style="color: #000000;" required="" type="password">
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="control-group">
+                <label class="control-label" for=""></label>
+                <div class="controls" style="color: #000000;">
+                    <!--<button id="" name="" class="btn btn-default" onclick="budget()">Submit</button>-->
+                    <!--<p onclick="javascript: budget()" class="btn btn-default">Submit</p>-->
+                    <input type="submit" name="submit" id="submit" value="Submit" class="form-control">
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+
+    <p>Not got an account? - <a href="register.html">Register</a>.</p>
+
+
+    <div class="navbar-fixed-bottom" style="background-color: #666666;">
+        <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
+        <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
+        <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
+    </div>
+</div>
+
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+    app.initialize();
+</script>
+
+<script type="text/javascript">
+
+    $('#form1').submit(function(event) {
+        event.preventDefault();
+        dataf = $(this);
+        $.ajax({
+            type: 'POST',
+            url: 'http://ibenn.co.uk/budgiet/api/login',
+            data: dataf.serialize(),
+            dataType: 'json',
+            success: function(data){
+                if (data.boolean) {
+                    localStorage.setItem('10', data.uid);
+                    localStorage.setItem('11', data.token);
+                    window.location.href="index.html";
+                } else {
+                    alert(data.reason);
+                }
+
+            }
+        });
+    });
+</script>
+</body>
+</html>

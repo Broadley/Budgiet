@@ -83,7 +83,7 @@ function budgets() {
         if (localStorage.getItem('5') == 7) {
             document.getElementById('daysleft').innerHTML = "Last day!";
         } else {
-            document.getElementById('daysleft').innerHTML = (localStorage.getItem('5') + " days remaining.");
+            document.getElementById('daysleft').innerHTML = "Today and " +(localStorage.getItem('5') + " days remaining.");
         }
     }
 }
@@ -92,20 +92,23 @@ function getBudget() {
     var budgetItem = 0;
 
     $.ajax({
-        url: 'http://ibenn.co.uk/budgietReturnBudget.php',
-        dataType: 'jsonp',
-        jsonp: 'jsoncallback',
-        timeout: 5000,
-        success: function(data, status){
-            $.each(data, function(i,item){
-                localStorage.setItem('2', item.budget);
-                localStorage.setItem('5', item.daysleft);
-                budgets();
-            });
+        type: 'POST',
+        url: 'http://ibenn.co.uk/budgiet/api/budgetreturn',
+        dataType: 'json',
+        data: {
+            'uid': localStorage.getItem('10'),
+            'token': localStorage.getItem('11')
+        },
+        success: function(data){
+                $.each(data, function(i,item){
+                    localStorage.setItem('2', item.budget);
+                    localStorage.setItem('5', item.daysleft);
+                    budgets();
+                });
         },
         error: function(){
             //error loading data
-            console.log("Didn't load");
+            window.location.href = "login.html";
         }
     });
 }
@@ -113,22 +116,20 @@ function getBudget() {
 function items(){
 
     $.ajax({
-        url: 'http://ibenn.co.uk/budgietView.php',
-        dataType: 'jsonp',
-        jsonp: 'jsoncallback',
-        timeout: 5000,
-        success: function(data, status){
-            var spending = 0;
-            $.each(data, function(i,item){
-                spending += parseFloat(item.price);
-            });
-
-            localStorage.setItem('4', spending);
-            budgets();
+        type: 'POST',
+        url: 'http://ibenn.co.uk/budgiet/api/viewtest',
+        dataType: 'json',
+        data: {
+            'uid': localStorage.getItem('10'),
+            'token': localStorage.getItem('11')
+        },
+        success: function(data){
+                localStorage.setItem('4', data.spending);
+                budgets();
         },
         error: function(){
             //error loading data
-            console.log("Didn't load");
+            window.location.href = "login.html";
         }
     });
 }
@@ -137,30 +138,30 @@ function itemDetails(){
     var amountTrans = 5;
     var innerHTML = '<h2>Last ' + amountTrans + ' transactions:</h2><table class="table table-striped" style="color: #000000;"><thead><tr><th>#</th><th>Time</th><th>Item</th><th>Price</th></tr></thead><tbody>';
     $.ajax({
-        url: 'http://ibenn.co.uk/budgietView.php',
-        dataType: 'jsonp',
-        jsonp: 'jsoncallback',
-        timeout: 5000,
-        success: function(data, status){
+        type: 'POST',
+        url: 'http://ibenn.co.uk/budgiet/api/view5',
+        dataType: 'json',
+        data: {
+            'uid': localStorage.getItem('10'),
+            'token': localStorage.getItem('11')
+        },
+        success: function(data){
+                var y = 0;
+                $.each(data, function(i,item){
+                    innerHTML += "<tr><td>" + (++y) + "</td>";
+                    var date = new Date(item.timestamp*1000);
+                    innerHTML += "<td>" + date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + "</td>";
+                    innerHTML += "<td>" + item.item + "</td>";
+                    innerHTML += "<td>£" + item.price + "</td></tr>";
+                });
 
-            var y = 0;
-            for (x=data.length-1; x >= (data.length-amountTrans); x--){
-                innerHTML += "<tr><td>" + (++y) + "</td>";
+                innerHTML += "</tbody></table>";
 
-                var date = new Date(data[x].timestamp*1000);
-
-                innerHTML += "<td>" + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear() + "</td>";
-                innerHTML += "<td>" + data[x].item + "</td>";
-                innerHTML += "<td>£" + data[x].price + "</td></tr>";
-            }
-
-            innerHTML += "</tbody></table>";
-
-            document.getElementById('table').innerHTML = innerHTML;
+                document.getElementById('table').innerHTML = innerHTML;
         },
         error: function(){
             //error loading data
-            console.log("Didn't load");
+            window.location.href = "login.html";
         }
     });
 }

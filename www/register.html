@@ -7,7 +7,7 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <title>Budgiet &bullet; Settings</title>
+        <title>Budgiet &bullet; Register</title>
     </head>
     <body>
         <a href="index.html">
@@ -15,36 +15,33 @@
                 BUDG<img src="img/logo.png" height="75" width="39.375">IET
             </div>
         </a>
-        <h2>Settings</h2>
+        <h2>Register</h2>
+        <p>Already got an account? - <a href="login.html">Login</a>.</p>
         <div class="container">
             <form id="form1" class="form-horizontal" style="">
                 <fieldset>
                     <!-- Text input-->
                     <div class="control-group" style="">
-                        <label class="control-label" for="budget2">Budget:</label>
+                        <label class="control-label" for="username">Username:</label>
                         <div class="controls">
-                            <input id="budget2" name="budget" placeholder="Budget" class="form-control"  style="color: #000000;" required="" type="number">
+                            <input id="username" name="username" placeholder="Username" class="form-control"  style="color: #000000;" required="" type="text">
                         </div>
                     </div>
 
-                    <!-- Multiple Radios -->
-                    <!--<div class="control-group">
-                        <label class="control-label" for="">Duration:</label>
+                    <!-- Text input-->
+                    <div class="control-group" style="">
+                        <label class="control-label" for="password">Password:</label>
                         <div class="controls">
-                            <label class="radio" for="radios-0">
-                                <input name="duration" id="radios-0" value="Monthly" checked="checked" type="radio">
-                                Monthly
-                            </label>
-                            <label class="radio" for="radios-1">
-                                <input name="duration" id="radios-1" value="Weekly" type="radio">
-                                Weekly
-                            </label>
-                            <label class="radio" for="radios-2">
-                                <input name="duration" id="radios-2" value="Daily" type="radio">
-                                Daily
-                            </label>
+                            <input id="password" name="password" placeholder="Password" class="form-control"  style="color: #000000;" required="" type="password">
                         </div>
-                    </div>-->
+                    </div>
+                    <!-- Text input-->
+                    <div class="control-group" style="">
+                        <label class="control-label" for="password2">Confirm:</label>
+                        <div class="controls">
+                            <input id="password2" name="password2" placeholder="Confirm" class="form-control"  style="color: #000000;" required="" type="password">
+                        </div>
+                    </div>
 
                     <!-- Button -->
                     <div class="control-group">
@@ -52,12 +49,9 @@
                         <div class="controls" style="color: #000000;">
                             <!--<button id="" name="" class="btn btn-default" onclick="budget()">Submit</button>-->
                             <!--<p onclick="javascript: budget()" class="btn btn-default">Submit</p>-->
-                            <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-default form-control">
+                            <input type="submit" name="submit" id="submit" value="Submit" class="form-control">
                         </div>
                     </div>
-
-                    <input type="hidden" value="" id="uid" name="uid">
-                    <input type="hidden" value="" id="token" name="token">
 
                 </fieldset>
             </form>
@@ -66,7 +60,7 @@
             <div class="navbar-fixed-bottom" style="background-color: #666666;">
                 <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
                 <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
-                <a href="settings.html"><div class="navbar-style"><img src="img/740-gear-selected.png"></div></a>
+                <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
             </div>
         </div>
 
@@ -79,27 +73,30 @@
 
         <script type="text/javascript">
 
-            document.getElementById('budget2').value = localStorage.getItem('2');
-            document.getElementById('uid').value = localStorage.getItem('10');
-            document.getElementById('token').value = localStorage.getItem('11');
+            $('#form1').on('submit', function(event) {
 
-            $('#form1').submit(function(event) {
                 event.preventDefault();
-                dataf = $(this);
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://ibenn.co.uk/budgiet/api/budget',
-                    data: dataf.serialize(),
-                    dataType: 'json',
-                    success: function(data){
-                        localStorage.setItem('2', data.budget);
+                var form = $(this);
+                if (document.getElementById('password').value == document.getElementById('password2').value){
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://ibenn.co.uk/budgiet/api/register',
+                        data: form.serialize(),
+                        dataType: 'json',
+                        success: function(data){
+                            if (data.boolean) {
+                                localStorage.setItem('10', data.uid);
+                                localStorage.setItem('11', data.token);
+                                window.location.href="index.html";
+                            } else {
+                                alert(data.reason);
+                            }
+                        }
+                    });
+                } else {
+                    window.location.href="register.html";
+                }
 
-                        window.location.href="index.html";
-                    },
-                    error: function(data) {
-                        window.location.href="login.html";
-                    }
-                });
             });
         </script>
     </body>

@@ -25,7 +25,7 @@
 
         </div>
         <div class="navbar-fixed-bottom" style="background-color: #666666;">
-            <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
+            <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart-selected.png"></div></a>
             <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
             <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
         </div>
@@ -45,11 +45,14 @@
             var runningTotal = 0;
             var key2 = '<h2>Key:</h2><table class="table"><thead><tr><th>Colour</th><th>Item</th><th>Total</th></tr></thead><tbody>';
             $.ajax({
-                url: 'http://ibenn.co.uk/budgietView5.php',
-                dataType: 'jsonp',
-                jsonp: 'jsoncallback',
-                timeout: 5000,
-                success: function(data, status){
+                type: 'POST',
+                url: 'http://ibenn.co.uk/budgiet/api/view',
+                dataType: 'json',
+                data: {
+                    uid: localStorage.getItem('10'),
+                    token: localStorage.getItem('11')
+                },
+                success: function(data){
 
                     var color = 111020;
 
@@ -75,7 +78,7 @@
                 },
                 error: function(){
                     //error loading data
-                    console.log("Didn't load");
+                    window.location.href = "login.html";
                 }
             });
         </script>

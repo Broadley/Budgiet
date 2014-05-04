@@ -23,46 +23,44 @@
                     <div class="control-group" style="">
                         <label class="control-label" for="item">Item:</label>
                         <div class="controls">
-                            <input id="item" name="item" placeholder="Item" class="input-xxlarge"  style="color: #000000;" required="" type="text">
+                            <input id="item" name="item" placeholder="Item" class="form-control"  style="color: #000000;" required="" type="text">
                         </div>
                     </div>
-
-
-
                     <div class="control-group" style="">
                         <label class="control-label" for="price">Price:</label>
-                        <div class="controls">
-                            <input id="price" name="price" placeholder="Price" class="input-xxlarge"  style="color: #000000;" required="" type="number">
+                        <div class="input-group">
+                            <span class="input-group-addon">£</span>
+                            <input id="price" name="price" placeholder="00.00" class="form-control"  style="color: #000000;" required="" type="number">
                         </div>
                     </div>
-
                     <label class="control-label">Quick price:</label><br/>
-                    <a href="javascript: submitForm('1')"><div class="quickButton">1</div></a>
-                    <a href="javascript: submitForm('3')"><div class="quickButton">3</div></a>
-                    <a href="javascript: submitForm('5')"><div class="quickButton">5</div></a>
-                    <a href="javascript: submitForm('10')"><div class="quickButton">10</div></a>
-
+                    <div style="margin: 0 auto; width:100%; text-align: center;">
+                        <a href="javascript: submitForm('1')"><div class="quickButton">1</div></a>
+                        <a href="javascript: submitForm('3')"><div class="quickButton">3</div></a>
+                        <a href="javascript: submitForm('5')"><div class="quickButton">5</div></a>
+                        <a href="javascript: submitForm('10')"><div class="quickButton">10</div></a>
+                    </div>
 
                     <!-- Button -->
                     <div class="control-group">
                         <label class="control-label" for=""></label>
                         <div class="controls" style="color: #000000;">
-                            <!--<button id="" name="" class="btn btn-default" onclick="budget()">Submit</button>-->
-                            <!--<p onclick="javascript: budget()" class="btn btn-default">Submit</p>-->
-                            <input type="submit" name="submit" id="submit" value="Submit">
+                            <input class="btn btn-default form-control" type="submit" name="submit" id="submit" value="Submit">
                         </div>
                     </div>
 
+                    <input type="hidden" value="" id="uid" name="uid">
+                    <input type="hidden" value="" id="token" name="token">
                 </fieldset>
             </form>
-
-
-            <div class="navbar-fixed-bottom" style="background-color: #666666;">
-                <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
-                <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
-                <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
-            </div>
         </div>
+
+        <div class="navbar-fixed-bottom" style="background-color: #666666;">
+            <a href="view.html"><div class="navbar-style"><img src="img/859-bar-chart.png"></div></a>
+            <a href="add.html"><div class="navbar-style"><img src="img/709-plus.png"></div></a>
+            <a href="settings.html"><div class="navbar-style"><img src="img/740-gear.png"></div></a>
+        </div>
+
 
         <script type="text/javascript" src="phonegap.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
@@ -84,14 +82,25 @@
 
             $('#form1').submit(function(event) {
                 document.getElementById('item').disabled = false;
+                document.getElementById('uid').value = localStorage.getItem('10');
+                document.getElementById('token').value = localStorage.getItem('11');
+
                 event.preventDefault();
+                dataf = $(this);
                 $.ajax({
                     type: 'POST',
-                    url: 'http://www.ibenn.co.uk/budgietAdd.php',
-                    data: $(this).serialize(),
+                    url: 'http://ibenn.co.uk/budgiet/api/add',
+                    data: dataf.serialize(),
                     dataType: 'json',
-                    complete: function(data, status){
-                        window.location.href="index.html";
+                    success: function(data){
+
+                        if (data.boolean) {
+                            alert("Added");
+                            window.location.href="index.html";
+                        } else {
+                            alert(data.reason);
+                            window.location.href="login.html";
+                        }
                     }
                 });
             });
